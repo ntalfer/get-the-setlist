@@ -3,13 +3,25 @@ package com.ntalfer.getthesetlist;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.ListView;
+
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends Activity {
+
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.listView = (ListView)findViewById(R.id.list_view);
+
+            new SetlistFetcher().execute();
     }
 
 
