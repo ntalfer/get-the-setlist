@@ -1,35 +1,25 @@
 package com.ntalfer.getthesetlist;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.widget.ListView;
-
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
+import android.os.Bundle;
 
 public class MainActivity extends Activity {
 
-    private ListView listView;
+    private TourGigsFragment tourGigsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.listView = (ListView)findViewById(R.id.list_view);
+        // Verifie que l'on est pas restauré depuis un état précédent (rotation)
+        if (savedInstanceState != null) {
+            return;
+        }
 
-            new SetlistFetcher().execute();
+        this.tourGigsFragment = new TourGigsFragment();
+
+        getFragmentManager().beginTransaction()
+                .add(R.id.frame_layout, this.tourGigsFragment).commit();
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
 }
