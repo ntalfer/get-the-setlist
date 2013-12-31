@@ -52,13 +52,14 @@ public class Gig {
     private ArrayList<String> songs;
 
     public String getShortInfo() {
-        StringBuilder st = new StringBuilder();
-        st.append(this.venue).append(", ").append(this.city).append(", ").append(this.country).append(" - ").append(this.eventDate);
-        return st.toString();
+        //StringBuilder st = new StringBuilder();
+        //st.append(this.eventDate).append(" - ").append(this.venue).append(", ").append(this.city).append(", ").append(this.country);
+        String st = this.eventDate + " - " + this.venue + ", " + this.city + ", " + this.country;
+        //return st.toString();
+        return st;
     }
 
-    public Gig(String eventDate, String venue, String city, String country, ArrayList<String> songs)
-    {
+    public Gig(String eventDate, String venue, String city, String country, ArrayList<String> songs) {
         this.eventDate = eventDate;
         this.venue = venue;
         this.city = city;

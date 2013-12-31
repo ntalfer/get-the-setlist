@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +17,22 @@ import java.util.ArrayList;
 
 public class TourGigsFragment extends Fragment {
     private ListView listView;
+    private TextView textView;
+
+    public interface OnGigSelectedListener {
+        public void onGigSelected(Gig selected);
+    }
+
+    private OnGigSelectedListener onGigSelectedListener;
+
+    public void setOnGigSelectedListener(OnGigSelectedListener onGigSelectedListener) {
+        this.onGigSelectedListener = onGigSelectedListener;
+    }
+
+    public ArrayList<Gig> getGigs() {
+        return gigs;
+    }
+
     private ArrayList<Gig> gigs;
 
     @Override
@@ -25,12 +42,22 @@ public class TourGigsFragment extends Fragment {
         View view = inflater.inflate(R.layout.tour_fragment, container, false);
 
         this.listView = (ListView) view.findViewById(R.id.listView);
-
+        this.textView = (TextView) view.findViewById(R.id.tourTitle);
+        this.textView.setText("Blur - 2013/2014 Festival Tour");
 
         if (this.gigs == null)
             new TourFetcher(this.getActivity()).execute();
         else
             reloadData();
+
+        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (onGigSelectedListener != null) {
+                    onGigSelectedListener.onGigSelected(gigs.get(i));
+                }
+            }
+        });
 
         return view;
     }
@@ -97,7 +124,8 @@ public class TourGigsFragment extends Fragment {
         @Override
         protected ArrayList<Gig> doInBackground(Void... voids) {
             try {
-                return Tour.getAllGigs();
+                Tour tour = new Tour();
+                return tour.getGigs();
             } catch (Exception e) {
                 return new ArrayList<Gig>();
             }
